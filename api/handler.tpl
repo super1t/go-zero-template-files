@@ -2,8 +2,8 @@ package {{.PkgName}}
 
 import (
 	"net/http"
-	"github.com/tal-tech/go-zero/rest/httpx"
 	{{.ImportPackages}}
+	"github.com/zeromicro/go-zero/rest/httpx"
 	"github.com/zeromicro/x/errors"
 )
 
