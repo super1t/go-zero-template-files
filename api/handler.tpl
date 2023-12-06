@@ -5,6 +5,7 @@ import (
 
 	{{if .After1_1_10}}"github.com/tal-tech/go-zero/rest/httpx"{{end}}
 	{{.ImportPackages}}
+	"github.com/zeromicro/x/errors"
 )
 
 func {{.HandlerName}}(svcCtx *svc.ServiceContext) http.HandlerFunc {
