@@ -4,7 +4,7 @@ import (
 	"net/http"
 	{{.ImportPackages}}
 	"github.com/zeromicro/go-zero/rest/httpx"
-	{{if .HasRequest}}"github.com/zeromicro/x/errors"{{end}}
+	"github.com/zeromicro/x/errors"
 )
 
 func {{.HandlerName}}(svcCtx *svc.ServiceContext) http.HandlerFunc {
@@ -16,11 +16,11 @@ func {{.HandlerName}}(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		}
 
 		{{end}}l := {{.LogicName}}.New{{.LogicType}}(r.Context(), svcCtx)
-		{{if .HasResp}}resp, {{end}}err := l.{{.Call}}({{if .HasRequest}}&req{{end}})
-		if err != nil {
-			httpx.Error(w, err)
-		} else {
-			{{if .HasResp}}httpx.OkJson(w, resp){{else}}httpx.Ok(w){{end}}
-		}
+        {{if .HasResp}}resp, {{end}}codeMsg := l.{{.Call}}({{if .HasRequest}}&req{{end}})
+        if codeMsg != nil {
+        	httpx.Error(w, errors.New(codeMsg.Code, codeMsg.Msg))
+        } else {
+       	    {{if .HasResp}}httpx.OkJson(w, resp){{else}}httpx.Ok(w){{end}}
+        }
 	}
 }
