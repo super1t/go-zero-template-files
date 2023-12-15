@@ -20,7 +20,14 @@ func {{.HandlerName}}(svcCtx *svc.ServiceContext) http.HandlerFunc {
         if codeMsg != nil {
         	httpx.Error(w, errors.New(codeMsg.Code, codeMsg.Msg))
         } else {
-       	    {{if .HasResp}}httpx.OkJson(w, resp){{else}}httpx.Ok(w){{end}}
+       	    {{if .HasResp}}httpx.OkJson(w, struct {
+                           				Code int         `json:"code"`
+                           				Msg  string      `json:"msg"`
+                           				Data interface{} `json:"data,omitempty"`
+                           			}{
+                           				Msg: "ok",
+                           				Data: resp,
+                           			}){{else}}httpx.Ok(w){{end}}
         }
 	}
 }
